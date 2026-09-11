@@ -141,7 +141,7 @@
     .map-scroll{overflow:auto;-webkit-overflow-scrolling:touch;max-height:70vh;}
     .zoomctl{display:flex;}
     .tip{font-size:12px;padding:6px 10px;}
-    .overlay.help{padding:14px 16px;} .overlay.help ul{font-size:12px;line-height:1.45;padding-left:14px;}
+    .overlay.help{position:fixed;inset:0;z-index:30;padding:18px 16px;background:rgba(14,17,20,.96);} .overlay.help ul{font-size:12.5px;line-height:1.5;padding-left:14px;}
   }
   @media (max-width:760px) and (orientation:landscape){ .rotate-hint{display:none;} }
 </style>
@@ -166,7 +166,7 @@
           <button class="toggle" id="btnSandbox">Sandbox</button>
           <button id="btnReset">Reset</button>
           <button id="btnQuit">Sectoren</button>
-          <button id="btnHelp" title="Uitleg">?</button>
+          <button class="toggle" id="btnHelp" title="Uitleg">?</button>
           <button class="toggle" id="btnMute" title="Geluid aan/uit" style="min-width:40px">♪</button>
           <button class="toggle" id="btnWpn" title="Wapengeluid aan/uit" style="min-width:40px">⌁</button>
           <button class="toggle" id="btnVib" title="Trillen aan/uit" style="min-width:40px;display:none">📳</button>
@@ -398,8 +398,9 @@
     $('zoomOut').disabled=zoom<=1; $('zoomIn').disabled=zoom>=2.5;
   }
   // Trillen
-  const canVibrate=!!navigator.vibrate; let vibrate=canVibrate;
-  function buzz(pattern){ if(vibrate&&canVibrate&&isMobile()){ try{ navigator.vibrate(pattern); }catch(e){} } }
+  // Alleen op aanraakapparaten die het echt ondersteunen (desktop-Chrome heeft de API wel, maar trilt niet)
+  const canVibrate=!!navigator.vibrate&&window.matchMedia('(pointer:coarse)').matches; let vibrate=canVibrate;
+  function buzz(pattern){ if(vibrate&&canVibrate){ try{ navigator.vibrate(pattern); }catch(e){} } }
   function mulberry(seed){ return function(){ seed|=0; seed=seed+0x6D2B79F5|0; let t=Math.imul(seed^seed>>>15,1|seed); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
   function pathPixels(cells){ return cells.map(([c,r])=>({x:c*CELL+20,y:r*CELL+20})); }
   function pathLength(pts){ let l=0; for(let i=0;i<pts.length-1;i++) l+=Math.hypot(pts[i+1].x-pts[i].x,pts[i+1].y-pts[i].y); return l; }
@@ -418,7 +419,7 @@
     $('overlay').classList.remove('show'); $('btnPause').classList.remove('active'); $('btnPause').textContent='Pauze'; clearConfirm(); hideTip();
     showScreen('game'); lastHud=''; setZoom(1);
     updateHUD(); renderSelPanel(); renderPreview(); refreshTowerButtons();
-    if(!helpShown){ helpShown=true; $('helpOverlay').classList.add('show'); G.paused=true; }
+    if(!helpShown){ helpShown=true; openHelp(); }
   }
 
   // ---------------- Waves ----------------
@@ -613,6 +614,7 @@
       const nx=$('ovNext'); nx.style.display=won?'':'none'; nx.textContent=lvl.id===LAST?'Start Eindeloos':'Volgende sector';
     }
     $('overlay').classList.add('show'); lastHud=''; updateHUD(); updateHum(0,0);
+    if(isMobile()) canvas.parentElement.parentElement.scrollIntoView({behavior:'smooth',block:'start'});
   }
 
   // ---------------- Background (eenmalig per sector) ----------------
@@ -887,7 +889,7 @@
     if(!sandbox&&G.credits<base.cost) return warn('Onvoldoende credits ('+base.cost+')',gc,gr);
     if(!sandbox) G.credits-=base.cost;
     G.towers.push(Object.assign({},base,{typeKey:G.selectedBuild,gc,gr,x:cx,y:cy,level:1,cooldown:0,invested:base.cost,angle:-Math.PI/2,recoil:0,priority:base.priority,relay:false,branch:null,cache:null,retarget:0}));
-    G.occupied.add(gc+','+gr); G.touchCell=null; G.effects=G.effects.filter(f=>f.kind!=='hint'); SFX.place(); buzz(15); lastHud=''; updateHUD();
+    G.occupied.add(gc+','+gr); G.touchCell=null; G.effects=G.effects.filter(f=>f.kind!=='hint'); SFX.place(); buzz(35); lastHud=''; updateHUD();
   }
   function handleTap(gc,gr){
     if(!G||G.over) return;
@@ -929,15 +931,19 @@
   $('btnPause').addEventListener('click',togglePause);
   $('btnReset').addEventListener('click',e=>withConfirm(e.currentTarget,()=>startLevel(G.level)));
   $('btnQuit').addEventListener('click',e=>withConfirm(e.currentTarget,()=>{ G=null; updateHum(0,0); showScreen('levels'); }));
-  $('btnHelp').addEventListener('click',()=>{ if(!G) return; $('helpOverlay').classList.add('show'); G.helpPausedBefore=G.paused; G.paused=true; });
-  $('helpClose').addEventListener('click',()=>{ $('helpOverlay').classList.remove('show'); if(G) G.paused=!!G.helpPausedBefore; });
+  function openHelp(){ if(!G) return; $('helpOverlay').classList.add('show'); G.helpPausedBefore=G.paused; G.paused=true; $('btnHelp').classList.add('active'); $('ctlMenu').classList.remove('open'); $('btnMore').classList.remove('active'); }
+  function closeHelp(){ $('helpOverlay').classList.remove('show'); $('btnHelp').classList.remove('active'); if(G) G.paused=!!G.helpPausedBefore; }
+  $('btnHelp').addEventListener('click',()=>{ $('helpOverlay').classList.contains('show')?closeHelp():openHelp(); });
+  $('helpClose').addEventListener('click',closeHelp);
+  window.addEventListener('keydown',e=>{ if(e.key==='Escape'&&$('helpOverlay').classList.contains('show')) closeHelp(); });
   ['btnSpeed1','btnSpeed2','btnSpeed3'].forEach((id,i)=>$(id).addEventListener('click',()=>setSpeed(i+1)));
   function setSpeed(s){ gameSpeed=s; ['btnSpeed1','btnSpeed2','btnSpeed3'].forEach((id,i)=>$(id).classList.toggle('active',s===i+1)); $('btnSpeedCycle').textContent=s+'×'; $('btnSpeedCycle').classList.toggle('active',s>1); }
   $('btnSpeedCycle').addEventListener('click',()=>setSpeed(gameSpeed%3+1));
   $('btnMore').addEventListener('click',()=>{ $('ctlMenu').classList.toggle('open'); $('btnMore').classList.toggle('active'); });
+  ['btnReset','btnQuit','btnSandbox'].forEach(id=>$(id).addEventListener('click',()=>{ if(isMobile()&&!(G&&G.confirmBtn)){ $('ctlMenu').classList.remove('open'); $('btnMore').classList.remove('active'); } }));
   $('sheetClose').addEventListener('click',()=>cancel());
   $('zoomIn').addEventListener('click',()=>setZoom(zoom+0.5)); $('zoomOut').addEventListener('click',()=>setZoom(zoom-0.5));
-  if(canVibrate){ $('btnVib').style.display=''; $('btnVib').classList.add('active'); $('btnVib').addEventListener('click',()=>{ vibrate=!vibrate; $('btnVib').classList.toggle('active',vibrate); $('btnVib').classList.toggle('muted',!vibrate); if(vibrate) buzz(20); }); }
+  if(canVibrate){ $('btnVib').style.display=''; $('btnVib').classList.add('active'); $('btnVib').addEventListener('click',()=>{ vibrate=!vibrate; $('btnVib').classList.toggle('active',vibrate); $('btnVib').classList.toggle('muted',!vibrate); if(vibrate) buzz([60,40,60]); }); }
   // Pinch-zoom en tik-vs-scroll detectie
   let pinch=null, tapStart=null;
   canvas.addEventListener('touchstart',e=>{
