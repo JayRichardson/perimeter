@@ -178,7 +178,14 @@
     .ctl-menu.open{display:grid;}
     .ctl-menu button{display:block !important;width:100%;}
     .game-area{grid-template-columns:1fr;grid-template-areas:"map" "weapons" "under";}
-    .under{flex-direction:column;}
+    .under{flex-direction:column;align-items:stretch;}
+    .under .panel{max-height:none;}
+    /* Resultaatscherm schermvullend, zodat titel en knoppen niet wegvallen */
+    #overlay{position:fixed;inset:0;z-index:30;background:rgba(14,17,20,.95);overflow:auto;padding:24px 16px;justify-content:flex-start;}
+    #overlay h2{font-size:26px;margin-top:8vh;}
+    #overlay p{font-size:13.5px;}
+    #overlay .row{width:100%;max-width:320px;}
+    #overlay .row button{flex:1 1 45%;}
     .sidebar{gap:8px;}
     #towerButtons{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;}
     .tower-btn{margin-bottom:0;flex-direction:column;gap:3px;padding:6px 2px;align-items:center;text-align:center;}
