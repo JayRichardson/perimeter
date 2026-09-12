@@ -46,6 +46,37 @@
   .timer{height:4px;width:100%;background:#0e1114;border-radius:2px;overflow:hidden;}
   .timer i{display:block;height:100%;background:var(--amber);width:0%;}
   #screenLevels .intro{color:var(--muted);font-size:14px;max-width:640px;margin:0 0 16px;}
+  .menu{display:flex;flex-direction:column;align-items:center;text-align:center;padding:40px 16px 24px;}
+  .menu .logo{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:64px;letter-spacing:.12em;color:var(--amber);line-height:1;margin:0;text-shadow:0 0 28px rgba(217,160,58,.25);}
+  .menu .tagline{color:var(--muted);font-size:14px;margin:6px 0 26px;max-width:460px;}
+  .menu .actions{display:flex;flex-direction:column;gap:10px;width:100%;max-width:300px;}
+  .menu .actions button{padding:13px 16px;font-size:16px;}
+  .menu .meta{display:flex;gap:22px;margin-top:26px;color:var(--muted);font-size:12.5px;flex-wrap:wrap;justify-content:center;}
+  .menu .meta b{font-family:'Rajdhani',sans-serif;font-size:17px;color:var(--text);display:block;}
+  .menu .meta .pts b{color:var(--amber);}
+  .skillhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+  .skillhead p{color:var(--muted);font-size:13.5px;margin:4px 0 0;max-width:560px;}
+  .pointbox{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:15px;color:var(--amber);border:1px solid var(--amber-dim);border-radius:4px;padding:7px 12px;white-space:nowrap;}
+  .trees{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+  .tree{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;}
+  .tree h3{display:flex;align-items:center;gap:8px;margin:0 0 4px;font-size:17px;}
+  .tree h3 svg{width:26px;height:26px;}
+  .tree .prog{font-size:11.5px;color:var(--muted);margin-bottom:10px;}
+  .tier{display:flex;gap:8px;justify-content:center;position:relative;margin-top:16px;}
+  .tier::before{content:'';position:absolute;top:-12px;left:50%;width:1px;height:9px;background:var(--line);}
+  .tree .tier:first-of-type{margin-top:0;}
+  .tree .tier:first-of-type::before{display:none;}
+  .node{flex:1;min-width:0;border:1px solid var(--line);border-radius:4px;background:var(--panel2);padding:7px 8px;cursor:pointer;text-align:left;}
+  .node:hover:not(.locked){border-color:var(--amber);}
+  .node .nn{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:13.5px;display:flex;justify-content:space-between;gap:6px;}
+  .node .nn b{color:var(--amber);font-weight:700;}
+  .node .nd{font-size:11px;color:var(--muted);line-height:1.3;margin-top:2px;}
+  .node.owned{border-color:var(--amber);background:#2b2a22;}
+  .node.owned .nn b{color:var(--ok);}
+  .node.locked{opacity:.45;cursor:not-allowed;}
+  .lvl-endless{border:1px solid var(--line);background:var(--panel2);color:var(--shield);border-radius:4px;padding:2px 9px;font-size:13px;cursor:pointer;min-height:0;}
+  .lvl-endless:hover{border-color:var(--shield);}
+  @media (max-width:760px){ .menu{padding:24px 8px 16px;} .menu .logo{font-size:44px;} .trees{grid-template-columns:1fr;} }
   .levels{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
   .card{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--amber-dim);border-radius:6px;padding:14px;cursor:pointer;position:relative;min-height:150px;display:flex;flex-direction:column;gap:6px;}
   .card:hover{border-color:#4a5764;border-left-color:var(--amber);}
@@ -60,8 +91,13 @@
   .diff i{display:inline-block;width:7px;height:9px;background:#3a4550;margin-left:2px;border-radius:1px;}
   .diff i.on{background:var(--amber);}
   .level-foot{margin-top:14px;font-size:12.5px;color:var(--muted);}
-  .game-area{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;}
-  .canvas-holder{position:relative;flex:1 1 640px;min-width:280px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#242a26;}
+  .game-area{display:grid;grid-template-columns:1fr 244px;grid-template-areas:"map weapons" "under weapons";gap:10px;align-items:start;}
+  .canvas-holder{grid-area:map;}
+  .sidebar{grid-area:weapons;}
+  .under{grid-area:under;display:flex;gap:10px;align-items:flex-start;}
+  .under #selPanel{flex:1 1 60%;min-width:0;}
+  .under #prevPanel{flex:1 1 40%;min-width:0;}
+  .canvas-holder{position:relative;min-width:280px;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:#242a26;}
   canvas{display:block;width:100%;height:auto;cursor:crosshair;touch-action:pan-x pan-y;}
   .zoomctl{display:none;position:absolute;top:8px;right:8px;z-index:5;gap:4px;}
   .zoomctl button{min-height:0;padding:4px 9px;font-size:16px;background:rgba(30,36,43,.9);}
@@ -80,7 +116,23 @@
   .tip{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(30,36,43,.95);border:1px solid var(--amber-dim);border-left:3px solid var(--amber);border-radius:4px;padding:8px 12px;font-size:13px;display:none;}
   .tip.show{display:block;}
   .tip b{color:var(--amber);font-weight:600;}
-  .sidebar{flex:0 0 250px;min-width:220px;display:flex;flex-direction:column;gap:10px;}
+  .sidebar{min-width:0;display:flex;flex-direction:column;gap:10px;}
+  .tower-btn .desc{display:none;}
+  @media (min-width:761px){
+    body{padding:12px 12px 16px;}
+    .canvas-holder{max-width:calc((100vh - 290px) * 1.6667);}
+    .sidebar{max-height:calc(100vh - 150px);overflow:auto;}
+    .under .panel{max-height:150px;overflow:auto;}
+    .tower-btn{padding:5px 8px;gap:8px;}
+    .tower-btn svg{width:26px;height:26px;flex:0 0 26px;}
+    .tower-btn .name{font-size:14px;}
+    .tower-btn .stats{font-size:10.5px;}
+    .tag{font-size:9.5px;padding:0 4px;margin-top:2px;}
+    .panel{padding:10px;}
+    .panel h3{margin-bottom:6px;font-size:14px;}
+    #selContent .row{margin-bottom:3px;}
+    .preview .chip{padding:0 6px;}
+  }
   .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:12px;}
   .panel h3{margin:0 0 8px;font-size:15px;color:var(--muted);font-weight:600;}
   .tower-btn{display:flex;align-items:center;gap:10px;width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:7px 9px;margin-bottom:6px;text-align:left;cursor:pointer;}
@@ -118,14 +170,16 @@
     .stat{min-width:0;flex:1;} .stat .val{font-size:18px;}
     .hud .controls{width:100%;display:grid;grid-template-columns:52px 1fr 64px 44px;gap:6px;align-items:stretch;}
     .hud .controls>button, .hud .controls>.wavebox{min-height:40px;}
-    #btnSpeed1,#btnSpeed2,#btnSpeed3,#btnSandbox,#btnReset,#btnQuit,#btnHelp,#btnMute,#btnWpn{display:none;}
+    #btnSpeed1,#btnSpeed2,#btnSpeed3,#btnReset,#btnQuit,#btnHelp,#btnMute,#btnWpn{display:none;}
     #btnSpeedCycle{display:block;padding:8px 4px;}
     #btnWave{min-width:0;width:100%;padding:8px 6px;}
     .ctl-more{display:block;padding:8px 4px;}
     .ctl-menu{display:none;grid-column:1 / -1;gap:6px;grid-template-columns:repeat(3,1fr);}
     .ctl-menu.open{display:grid;}
     .ctl-menu button{display:block !important;width:100%;}
-    .sidebar{flex:1 1 100%;min-width:0;gap:8px;}
+    .game-area{grid-template-columns:1fr;grid-template-areas:"map" "weapons" "under";}
+    .under{flex-direction:column;}
+    .sidebar{gap:8px;}
     #towerButtons{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;}
     .tower-btn{margin-bottom:0;flex-direction:column;gap:3px;padding:6px 2px;align-items:center;text-align:center;}
     .tower-btn svg{width:28px;height:28px;flex:0 0 28px;}
@@ -163,7 +217,6 @@
         <button class="toggle" id="btnPause">Pauze</button>
         <button class="ctl-more" id="btnMore" title="Meer">⋯</button>
         <div class="ctl-menu" id="ctlMenu">
-          <button class="toggle" id="btnSandbox">Sandbox</button>
           <button id="btnReset">Reset</button>
           <button id="btnQuit">Sectoren</button>
           <button class="toggle" id="btnHelp" title="Uitleg">?</button>
@@ -173,13 +226,45 @@
         </div>
       </div>
     </div>
-    <div class="controls" id="levelControls"><button class="toggle" id="btnSandboxLv">Sandbox</button><button class="toggle" id="btnMuteLv" title="Geluid aan/uit" style="min-width:40px">♪</button></div>
+    <div class="controls" id="levelControls"><button id="btnMenuBack">Menu</button><button class="toggle" id="btnMuteLv" title="Geluid aan/uit" style="min-width:40px">♪</button></div>
   </header>
 
+  <section id="screenMenu">
+    <div class="menu">
+      <h2 class="logo">PERIMETER</h2>
+      <p class="tagline">Twintig sectoren, zes wapensystemen en een vaardighedenboom. Houd de linie tot de laatste golf.</p>
+      <div class="actions">
+        <button class="primary" id="mnPlay">Sectoren</button>
+        <button id="mnSkills">Vaardigheden</button>
+        <button id="mnEndless">Eindeloze modus</button>
+        <button class="toggle" id="mnSandbox">Sandbox</button>
+      </div>
+      <div class="meta">
+        <div><b id="mnStars">0 / 60</b>sterren</div>
+        <div class="pts"><b id="mnPoints">0</b>punten beschikbaar</div>
+        <div><b id="mnBest">—</b>beste eindeloze run</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screenSkills" style="display:none;">
+    <div class="skillhead">
+      <div>
+        <h2 style="margin:0;font-size:22px;color:var(--amber)">Vaardigheden</h2>
+        <p>Sectoren leveren punten op: 3 sterren geeft 6, 2 sterren 4, 1 ster 2. Alle takken samen kosten precies wat twintig sectoren met drie sterren opleveren. Upgrades gelden voor elk wapen dat je daarna plaatst.</p>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <span class="pointbox" id="skPoints">0 punten</span>
+        <button id="skReset">Punten terugvorderen</button>
+      </div>
+    </div>
+    <div class="trees" id="trees"></div>
+  </section>
+
   <section id="screenLevels">
-    <p class="intro">Zestien sectoren, elk met een eigen aanvalsroute en dreiging, en daarna de eindeloze modus. Roep de volgende golf vroeg op voor extra credits — als je het aandurft.</p>
+    <p class="intro">Twintig sectoren, elk met een eigen aanvalsroute en dreiging.</p>
     <div class="levels" id="levelGrid"></div>
-    <div class="level-foot" id="levelFoot">Sterren: 3 bij ≥ 90% integriteit, 2 bij ≥ 50%, anders 1. Winst ontgrendelt de volgende sector; Sector 16 ontgrendelt Eindeloos.</div>
+    <div class="level-foot" id="levelFoot">Sterren: 3 bij ≥ 90% integriteit, 2 bij ≥ 50%, anders 1. Winst ontgrendelt de volgende sector; Elke gewonnen sector levert vaardigheidspunten op en ontgrendelt de eindeloze modus op die kaart.</div>
   </section>
 
   <section id="screenGame" style="display:none;">
@@ -192,7 +277,7 @@
           <h2 id="ovTitle">—</h2>
           <div class="stars" id="ovStars"></div>
           <p id="ovText"></p>
-          <div class="row"><button class="primary" id="ovNext">Volgende sector</button><button id="ovRetry">Opnieuw</button><button id="ovLevels">Sectoren</button></div>
+          <div class="row"><button class="primary" id="ovNext">Volgende sector</button><button id="ovRetry">Opnieuw</button><button id="ovSkills">Vaardigheden</button><button id="ovLevels">Sectoren</button></div>
         </div>
         <div class="overlay help" id="helpOverlay">
           <h2>Hoe het werkt</h2>
@@ -200,7 +285,7 @@
             <li><b>Bouwen</b> — kies een wapen (klik of toets 1–6), klik een vrij vak naast de route. Esc of rechtsklik annuleert.</li>
             <li><b>Golven</b> — na elke golf loopt een timer van 25s. Roep eerder op en de resterende seconden komen als credits; dat kan pas als de vorige golf volledig is gespawnd.</li>
             <li><b>Pantser</b> trekt een vast bedrag van elke kogel af. Scherpschutter en lasers negeren het. <b>Zwevers</b> zijn alleen te raken met luchtbereik. <b>Schild</b> regenereert na 2s zonder treffers; lasers breken het dubbel zo snel. <b>Herstellers</b> genezen alles binnen hun ring.</li>
-            <li><b>Chainlaser</b> — elke Chainlaser binnen het linkbereik telt mee (+50% per stuk, ook via schakels). Een laser op "Alleen linken" telt dubbel (+100%).</li>
+            <li><b>Chainlaser</b> — zet hem op <b>Schakel</b> en hij vuurt zijn straal in de volgende laser in plaats van op vijanden; die kracht loopt door de keten naar een <b>Aanvaller</b>, die +100% schade krijgt per schakel (max 10). Hoe meer kracht een laser draagt, hoe verder zijn kleur opschuift van rood naar violet.</li>
             <li><b>Prioriteit</b> — per toren instelbaar: Eerste, Sterkste, Dichtstbij, Snelste. Scherpschutters starten op Sterkste.</li>
             <li><b>Specialisatie</b> — bij niveau 2 kies je één van twee vertakkingen voor niveau 3.</li>
             <li><b>Stoorzender</b> — vertraagt alles in zijn veld, ook Zwevers, zonder zelf te schieten. Verdovingen stapelen niet: de sterkste telt.</li>
@@ -212,11 +297,13 @@
       </div>
       <div class="sidebar">
         <div class="panel"><h3>Wapens</h3><div id="towerButtons"></div></div>
+      </div>
+      <div class="under">
         <div class="panel" id="selPanel"><button class="sheet-close" id="sheetClose">✕</button><h3>Selectie</h3>
           <div class="placeholder" id="selPlaceholder">Klik op een geplaatst wapen om prioriteit, upgrade of verkoop in te stellen.</div>
           <div id="selContent" style="display:none;"></div>
         </div>
-        <div class="panel"><h3 id="prevTitle">Volgende golf</h3><div class="preview" id="preview"></div></div>
+        <div class="panel" id="prevPanel"><h3 id="prevTitle">Volgende golf</h3><div class="preview" id="preview"></div></div>
       </div>
     </div>
     <p class="rotate-hint">Tip: draai je telefoon voor een groter speelveld.</p>
@@ -264,16 +351,22 @@
       paths:[[[-1,10],[17,10],[17,1],[2,1],[2,6],[12,6],[12,8]]]},
     {id:16, name:'Bastion', desc:'Drie invalswegen die pas vlak voor de uitgang samenkomen. De laatste sector.', waves:24, credits:600, lives:15, difficulty:2.6, armorFrom:2, flyersFrom:2, diff:5,
       paths:[[[-1,2],[8,2],[8,9],[21,9]], [[-1,8],[4,8],[4,5],[13,5],[13,9],[21,9]], [[17,-1],[17,9],[21,9]]]},
-    {id:17, name:'Eindeloos', endless:true, desc:'Geen einde. De golven worden zwaarder tot de perimeter valt. Hoe ver kom je?', waves:Infinity, credits:450, lives:20, difficulty:1.4, armorFrom:2, flyersFrom:2, diff:5,
-      paths:[[[6,-1],[6,4],[12,4],[12,8],[21,8]], [[-1,10],[8,10],[8,8],[21,8]], [[15,-1],[15,8],[21,8]]]}
+    {id:17, name:'Sluis', desc:'Twee smalle doorgangen met een lange aanloop. Vertraging is hier meer waard dan schade.', waves:20, credits:520, lives:18, difficulty:2.3, armorFrom:2, flyersFrom:3, diff:5,
+      paths:[[[-1,1],[9,1],[9,5],[3,5],[3,10],[21,10]], [[-1,7],[3,7],[3,10],[21,10]]]},
+    {id:18, name:'Kloof', desc:'Vier korte routes aan weerszijden. Je verdediging kan nergens alles dekken.', waves:22, credits:600, lives:18, difficulty:2.4, armorFrom:2, flyersFrom:2, diff:5,
+      paths:[[[-1,2],[9,2],[9,6],[21,6]], [[-1,10],[9,10],[9,6],[21,6]], [[5,-1],[5,4],[12,4],[12,6],[21,6]], [[14,12],[14,8],[12,8],[12,6],[21,6]]]},
+    {id:19, name:'Vortex', desc:'Een dubbele spiraal die naar het hart draait. Torens in het centrum dekken bijna alles.', waves:22, credits:560, lives:16, difficulty:2.5, armorFrom:2, flyersFrom:2, diff:5,
+      paths:[[[-1,0],[19,0],[19,11],[1,11],[1,3],[16,3],[16,8],[6,8],[6,5],[11,5]], [[21,11],[3,11],[3,1],[17,1],[17,6],[11,6],[11,5]]]},
+    {id:20, name:'Eindspel', desc:'Vijf invalswegen, één bunker, vierentwintig golven. Alles wat je hebt geleerd.', waves:24, credits:700, lives:15, difficulty:2.8, armorFrom:2, flyersFrom:2, diff:5,
+      paths:[[[-1,2],[7,2],[7,6],[13,6],[13,9],[21,9]], [[-1,9],[13,9],[21,9]], [[4,-1],[4,6],[7,6],[13,6],[13,9],[21,9]], [[11,-1],[11,3],[16,3],[16,9],[21,9]], [[9,12],[9,9],[21,9]]]}
   ];
-  const LAST=16;
+  const LAST=20;
   const TOWER_TYPES={
     mitrailleur:{name:'Mitrailleur', cost:60, dmg:7, rate:0.13, range:95, air:true, pierce:false, priority:'first', accent:'#9fb0c0', proj:'#f2d68a', desc:'Zwermen en Sprinters. Vrijwel nutteloos tegen Pantser.'},
     scherpschutter:{name:'Scherpschutter', cost:110, dmg:40, rate:1.4, range:160, air:true, pierce:true, priority:'strong', accent:'#b5bf6e', proj:'#e8e4d0', desc:'Pantser, Herstellers en Titanen. Start op prioriteit Sterkste.'},
     stoorzender:{name:'Stoorzender', cost:120, dmg:0, range:90, air:true, isAura:true, auraSlow:0.35, priority:'first', accent:'#8fd3c8', desc:'Vertraagt alles in zijn veld met 35%, ook Zwevers. Doet zelf geen schade.'},
     mortier:{name:'Mortier', cost:140, dmg:24, rate:1.8, range:120, air:false, splash:55, slow:0.35, slowDur:1.2, priority:'first', accent:'#c58b4a', proj:'#3a3a3a', desc:'Groepen op de grond: splash en verdoving. Raakt geen Zwevers.'},
-    laserChain:{name:'Chainlaser', cost:170, dmg:18, range:105, air:true, pierce:true, isLaser:true, mode:'chain', linkRange:150, linkBonus:0.5, maxLinks:10, priority:'first', accent:'#ff6a3d', beam:'#ff6a3d', desc:'Continue straal, +50% per gekoppelde Chainlaser, +100% als die alleen linkt (max 10).'},
+    laserChain:{name:'Chainlaser', cost:170, dmg:18, range:105, air:true, pierce:true, isLaser:true, mode:'chain', linkRange:150, linkBonus:0.5, maxLinks:10, priority:'first', accent:'#ff6a3d', beam:'#ff6a3d', desc:'Aanvaller of schakel. Schakels stralen hun kracht door naar een aanvaller: +100% per schakel (max 10).'},
     laserMulti:{name:'Spreidlaser', cost:190, dmg:10, range:100, air:true, pierce:true, isLaser:true, mode:'multi', maxTargets:3, priority:'first', accent:'#5fc9ff', beam:'#5fc9ff', desc:'Tot 3 doelen tegelijk. Breekt schilden snel.'}
   };
   const TOWER_KEYS=Object.keys(TOWER_TYPES);
@@ -285,6 +378,61 @@
     laserMulti:[{key:'spreiding',name:'Spreiding',desc:'Raakt tot 6 doelen tegelijk.',apply:t=>{t.maxTargets=6;}},{key:'bundel',name:'Bundeling',desc:'+80% schade per straal.',apply:t=>{t.dmg=Math.round(t.dmg*1.8*10)/10;}}],
     stoorzender:[{key:'diep',name:'Diep veld',desc:'Vertraging naar 65%, bereik +20%.',apply:t=>{t.auraSlow=0.65;t.range*=1.2;}},{key:'ontlading',name:'Ontlading',desc:'Alles in het veld krijgt 8 schade/s (negeert pantser).',apply:t=>{t.auraDps=8;}}]
   };
+  // ---------------- Vaardighedenboom ----------------
+  // Sterren: 3★ = 6 punten, 2★ = 4, 1★ = 2. 20 sectoren × 6 = 120 punten.
+  // Elke boom kost 2+3+4+5+6 = 20 punten; 6 bomen = 120. Alles is dus te kopen bij 20× 3 sterren.
+  const STAR_POINTS={1:2,2:4,3:6};
+  const SKILLS={
+    mitrailleur:[
+      {id:'m1',tier:0,cost:2,name:'Verzwaarde loop',desc:'+12% schade',apply:t=>t.dmg*=1.12},
+      {id:'m2',tier:1,cost:3,req:'m1',name:'Snelle toevoer',desc:'+15% vuursnelheid',apply:t=>t.rate*=0.87},
+      {id:'m3',tier:1,cost:4,req:'m1',name:'Verlengde loop',desc:'+12% bereik',apply:t=>t.range*=1.12},
+      {id:'m4',tier:2,cost:5,req:'m2',name:'Hardkern-munitie',desc:'Negeert 3 pantser',apply:t=>t.armorCut=(t.armorCut||0)+3},
+      {id:'m5',tier:2,cost:6,req:'m3',name:'Tandemloop',desc:'+25% schade',apply:t=>t.dmg*=1.25}
+    ],
+    scherpschutter:[
+      {id:'s1',tier:0,cost:2,name:'Gekalibreerd vizier',desc:'+12% schade',apply:t=>t.dmg*=1.12},
+      {id:'s2',tier:1,cost:3,req:'s1',name:'Lange kamer',desc:'+15% bereik',apply:t=>t.range*=1.15},
+      {id:'s3',tier:1,cost:4,req:'s1',name:'Vlotte grendel',desc:'+18% vuursnelheid',apply:t=>t.rate*=0.82},
+      {id:'s4',tier:2,cost:5,req:'s2',name:'Antimateriaal',desc:'+30% schade tegen bazen',apply:t=>t.bossBonus=(t.bossBonus||0)+0.3},
+      {id:'s5',tier:2,cost:6,req:'s3',name:'Zware lading',desc:'+25% schade',apply:t=>t.dmg*=1.25}
+    ],
+    stoorzender:[
+      {id:'z1',tier:0,cost:2,name:'Sterker veld',desc:'+6% vertraging',apply:t=>t.auraSlow+=0.06},
+      {id:'z2',tier:1,cost:3,req:'z1',name:'Brede antenne',desc:'+15% bereik',apply:t=>t.range*=1.15},
+      {id:'z3',tier:1,cost:4,req:'z1',name:'Resonantie',desc:'+8% vertraging',apply:t=>t.auraSlow+=0.08},
+      {id:'z4',tier:2,cost:5,req:'z2',name:'Statische lading',desc:'4 schade/s in het veld',apply:t=>t.auraDps=(t.auraDps||0)+4},
+      {id:'z5',tier:2,cost:6,req:'z3',name:'Dempingsveld',desc:'+10% vertraging',apply:t=>t.auraSlow+=0.10}
+    ],
+    mortier:[
+      {id:'o1',tier:0,cost:2,name:'Dichtere lading',desc:'+12% schade',apply:t=>t.dmg*=1.12},
+      {id:'o2',tier:1,cost:3,req:'o1',name:'Bredere scherven',desc:'+18% splash',apply:t=>t.splash*=1.18},
+      {id:'o3',tier:1,cost:4,req:'o1',name:'Snellere lader',desc:'+18% vuursnelheid',apply:t=>t.rate*=0.82},
+      {id:'o4',tier:2,cost:5,req:'o2',name:'Schokgolf',desc:'+12% verdoving',apply:t=>t.slow=Math.min(0.85,t.slow+0.12)},
+      {id:'o5',tier:2,cost:6,req:'o3',name:'Zware granaat',desc:'+25% schade',apply:t=>t.dmg*=1.25}
+    ],
+    laserChain:[
+      {id:'c1',tier:0,cost:2,name:'Stabiele straal',desc:'+12% schade',apply:t=>t.dmg*=1.12},
+      {id:'c2',tier:1,cost:3,req:'c1',name:'Verre koppeling',desc:'+20% linkbereik',apply:t=>t.linkRange*=1.2},
+      {id:'c3',tier:1,cost:4,req:'c1',name:'Geleider',desc:'+20% linkbonus per schakel',apply:t=>t.linkBonus+=0.2},
+      {id:'c4',tier:2,cost:5,req:'c2',name:'Uitgebreid net',desc:'+3 maximale schakels',apply:t=>t.maxLinks+=3},
+      {id:'c5',tier:2,cost:6,req:'c3',name:'Supergeleider',desc:'+25% schade',apply:t=>t.dmg*=1.25}
+    ],
+    laserMulti:[
+      {id:'p1',tier:0,cost:2,name:'Fijnere optiek',desc:'+12% schade',apply:t=>t.dmg*=1.12},
+      {id:'p2',tier:1,cost:3,req:'p1',name:'Wijde lens',desc:'+15% bereik',apply:t=>t.range*=1.15},
+      {id:'p3',tier:1,cost:4,req:'p1',name:'Extra prisma',desc:'+1 doelwit',apply:t=>t.maxTargets+=1},
+      {id:'p4',tier:2,cost:5,req:'p2',name:'Schildbreker',desc:'+50% schade aan schilden',apply:t=>t.shieldBonus=(t.shieldBonus||0)+0.5},
+      {id:'p5',tier:2,cost:6,req:'p3',name:'Gebundelde kern',desc:'+25% schade',apply:t=>t.dmg*=1.25}
+    ]
+  };
+  const SKILL_TOTAL=Object.values(SKILLS).flat().reduce((a,n)=>a+n.cost,0);
+  function pointsEarned(){ let p=0; for(const lvl of LEVELS){ const st=progress.stars[lvl.id]||0; if(st) p+=STAR_POINTS[st]; } return p; }
+  function pointsSpent(){ let p=0; for(const [k,arr] of Object.entries(progress.skills||{})) for(const id of arr){ const n=SKILLS[k].find(x=>x.id===id); if(n) p+=n.cost; } return p; }
+  function pointsLeft(){ return sandbox?999:pointsEarned()-pointsSpent(); }
+  function hasSkill(k,id){ return sandbox||((progress.skills&&progress.skills[k])||[]).includes(id); }
+  function applySkills(t){ for(const n of SKILLS[t.typeKey]||[]) if(hasSkill(t.typeKey,n.id)) n.apply(t); t.dmg=Math.round(t.dmg*10)/10; }
+
   const PRIORITIES=[
     {key:'first',name:'Eerste',pick:(t,e)=>e.prog},
     {key:'strong',name:'Sterkste',pick:(t,e)=>e.hp+(e.shield||0)},
@@ -307,7 +455,7 @@
     hersteller:'<b>Herstellers</b> genezen alles binnen hun groene ring. Schakel ze eerst uit — prioriteit "Sterkste" helpt.',
     titaan:'<b>Titaan</b>: zwaar pantser, 5 integriteit bij een lek. Pantserdoorborende schade en verdoving.',
     branch:'Deze toren kan naar niveau 3: kies een <b>specialisatie</b> in het selectiepaneel.',
-    relay:'Meerdere Chainlasers binnen elkaars linkbereik versterken elkaar. Een laser op <b>Alleen linken</b> geeft dubbele bonus.'
+    relay:'Zet een Chainlaser op <b>Schakel</b>: hij vuurt dan in de volgende laser en versterkt de <b>Aanvaller</b> aan het eind van de keten.'
   };
 
   // ---------------- Audio ----------------
@@ -369,7 +517,7 @@
   function setWeaponSfx(on){ weaponSfx=on; $('btnWpn').classList.toggle('active',on); $('btnWpn').classList.toggle('muted',!on); updateHum(0,0); }
 
   // ---------------- Progress ----------------
-  let progress={unlocked:1,stars:{},endlessBest:0};
+  let progress={unlocked:1,stars:{},endlessBest:{},skills:{}};
   // Opslag: claude.ai-artifact via window.storage; zelfstandig gehost (bv. GitHub Pages) via localStorage.
   const KEY='perimeter-progress';
   const store={
@@ -378,12 +526,12 @@
     async set(v){ if(this.kind==='artifact') await window.storage.set(KEY,v,false); else if(this.kind==='local') localStorage.setItem(KEY,v); }
   };
   async function loadProgress(){
-    try{ const v=await store.get(); if(v){ const p=JSON.parse(v); if(p&&p.unlocked) progress=Object.assign({unlocked:1,stars:{},endlessBest:0},p); } }catch(e){}
+    try{ const v=await store.get(); if(v){ const p=JSON.parse(v); if(p&&p.unlocked) progress=Object.assign({unlocked:1,stars:{},endlessBest:{},skills:{}},p); if(typeof progress.endlessBest!=='object'||!progress.endlessBest) progress.endlessBest={}; if(!progress.skills) progress.skills={}; } }catch(e){}
     if(!store.kind) $('levelFoot').textContent+=' Opslag is in deze omgeving niet beschikbaar; voortgang geldt voor deze sessie.';
-    renderLevels();
+    renderMenu(); renderLevels();
   }
   async function saveProgress(){ try{ await store.set(JSON.stringify(progress)); }catch(e){} }
-  function endlessUnlocked(){ return sandbox||(progress.stars[LAST]||0)>0; }
+  function endlessUnlocked(id){ return sandbox||(progress.stars[id]||0)>0; }
 
   // ---------------- State ----------------
   let sandbox=false, gameSpeed=1, G=null, helpShown=false; const shownTips=new Set();
@@ -407,15 +555,15 @@
   function distToSegment(px,py,a,b){ const dx=b.x-a.x,dy=b.y-a.y,l=dx*dx+dy*dy; let t=l===0?0:((px-a.x)*dx+(py-a.y)*dy)/l; t=Math.max(0,Math.min(1,t)); return Math.hypot(px-(a.x+t*dx),py-(a.y+t*dy)); }
   function distToPaths(x,y){ let m=Infinity; for(const p of G.paths) for(let i=0;i<p.pts.length-1;i++){ const d=distToSegment(x,y,p.pts[i],p.pts[i+1]); if(d<m) m=d; } return m; }
 
-  function startLevel(level){
-    G={ level, paths:level.paths.map(c=>{const pts=pathPixels(c); return {pts,len:pathLength(pts)};}), rng:mulberry(level.id*7919+17),
+  function startLevel(level,endless){
+    G={ level, endless:!!endless, waves: endless?Infinity:level.waves, paths:level.paths.map(c=>{const pts=pathPixels(c); return {pts,len:pathLength(pts)};}), rng:mulberry(level.id*7919+17),
       credits:level.credits, lives:level.lives, maxLives:level.lives, wave:0, spawnQueue:[], spawnTimer:0, countdown:null, bonusWave:0,
       towers:[], enemies:[], projectiles:[], beams:[], effects:[], occupied:new Set(), selectedBuild:null, selectedTower:null, hover:null,
       over:false, won:false, paused:false, decor:[], confirmTimer:0, confirmBtn:null, touchCell:null };
     let rng=9000+level.id*77; const rand=()=>{ rng=(rng*1103515245+12345)&0x7fffffff; return (rng%1000)/1000; };
     for(let i=0;i<46;i++){ const x=rand()*W,y=rand()*H; if(distToPaths(x,y)<38) continue; G.decor.push({x,y,s:3+rand()*7,k:rand(),rot:rand()*6.28}); }
     G.bg=buildBackground(rand);
-    $('hdrLevel').textContent=(level.endless?'':'Sector '+level.id+' — ')+level.name;
+    $('hdrLevel').textContent=(endless?'Eindeloos — ':'Sector '+level.id+' — ')+level.name+(sandbox?' · Sandbox':'');
     $('overlay').classList.remove('show'); $('btnPause').classList.remove('active'); $('btnPause').textContent='Pauze'; clearConfirm(); hideTip();
     showScreen('game'); lastHud=''; setZoom(1);
     updateHUD(); renderSelPanel(); renderPreview(); refreshTowerButtons();
@@ -423,7 +571,7 @@
   }
 
   // ---------------- Waves ----------------
-  function waveComposition(level,n){
+  function waveComposition(level,n,endless){
     const c={loper:0,sprinter:0,pantser:0,zwever:0,schild:0,hersteller:0,titaan:0};
     c.loper=3+n+Math.floor(level.difficulty*2);
     if(n>=2) c.sprinter=2+Math.floor(n/2);
@@ -433,12 +581,12 @@
     if(n>=shieldFrom) c.schild=1+Math.floor((n-shieldFrom)/2);
     if(n>=healFrom) c.hersteller=1+Math.floor((n-healFrom)/4);
     if(n%5===0) c.titaan=1+Math.floor(n/15);
-    if(n===level.waves){ c.titaan=Math.max(c.titaan,1); c.loper+=4; c.pantser+=2; }
+    if(!endless&&n===level.waves){ c.titaan=Math.max(c.titaan,1); c.loper+=4; c.pantser+=2; }
     return c;
   }
   function hpScale(level,n){ let s=level.difficulty*(1+(n-1)*0.11); if(n>20) s*=Math.pow(1.035,n-20); return s; }
   function buildWave(level,n){
-    const comp=waveComposition(level,n), scale=hpScale(level,n), normal=[], bosses=[];
+    const comp=waveComposition(level,n,G.endless), scale=hpScale(level,n), normal=[], bosses=[];
     for(const [type,count] of Object.entries(comp)) for(let i=0;i<count;i++){
       const e={type,scale,path:Math.floor(G.rng()*G.paths.length),interval:type==='sprinter'?0.35:(type==='titaan'?1.6:0.65)};
       (type==='titaan'?bosses:normal).push(e);
@@ -446,13 +594,13 @@
     for(let i=normal.length-1;i>0;i--){ const j=Math.floor(G.rng()*(i+1)); [normal[i],normal[j]]=[normal[j],normal[i]]; }
     return normal.concat(bosses);
   }
-  function canCallWave(){ return G&&!G.over&&!G.paused&&G.wave<G.level.waves&&G.spawnQueue.length===0; }
+  function canCallWave(){ return G&&!G.over&&!G.paused&&G.wave<G.waves&&G.spawnQueue.length===0; }
   function callNextWave(early){
     if(!canCallWave()) return;
     if(early&&G.countdown!==null){ const b=Math.ceil(G.countdown); G.credits+=b; G.effects.push({kind:'text',x:W/2,y:40,t:1.6,text:'+'+b+' vroege oproep'}); SFX.bonus(); }
     G.wave++;
     G.spawnQueue=buildWave(G.level,G.wave); G.spawnTimer=0;
-    G.countdown=G.wave<G.level.waves?WAVE_INTERVAL:null;
+    G.countdown=G.wave<G.waves?WAVE_INTERVAL:null;
     SFX.wave(); lastHud=''; updateHUD(); renderPreview();
   }
   function spawnEnemy(entry){
@@ -493,7 +641,7 @@
       let b=0; for(let w=G.bonusWave+1;w<=G.wave;w++) b+=20+w*3;
       G.bonusWave=G.wave; G.credits+=b;
       G.effects.push({kind:'text',x:W/2,y:40,t:1.6,text:'+'+b+' golf overleefd'});
-      if(G.wave>=G.level.waves) finish(true);
+      if(G.wave>=G.waves) finish(true);
     }
   }
   function updateEnemies(dt){
@@ -514,6 +662,13 @@
         G.enemies.splice(i,1); }
     }
   }
+  // Kleurtrap voor gekoppelde lasers: rood -> oranje -> geel -> wit -> blauw -> violet
+  const CHAIN_RAMP=[[255,106,61],[255,150,50],[255,205,70],[255,245,190],[150,225,255],[120,150,255],[190,130,255]];
+  function chainColor(n){
+    const t=Math.max(0,Math.min(1,n/8))*(CHAIN_RAMP.length-1), i=Math.floor(t), f=t-i;
+    const a=CHAIN_RAMP[i], b=CHAIN_RAMP[Math.min(i+1,CHAIN_RAMP.length-1)];
+    return `rgb(${Math.round(a[0]+(b[0]-a[0])*f)},${Math.round(a[1]+(b[1]-a[1])*f)},${Math.round(a[2]+(b[2]-a[2])*f)})`;
+  }
   function canHit(t,e){ return !e.flying||t.air; }
   function priorityOf(t){ return PRIORITIES.find(p=>p.key===(t.priority||'first')); }
   function selectTargets(t,max,dt){
@@ -527,10 +682,11 @@
     }
     return t.cache;
   }
-  function applyDamage(e,dmg,pierce,isLaser,silent){
+  function applyDamage(e,dmg,pierce,isLaser,silent,src){
+    if(src){ if(src.bossBonus&&e.boss) dmg*=1+src.bossBonus; }
     if(e.maxShield) e.shieldTimer=2;
-    if(e.shield>0){ const sd=isLaser?dmg*2:dmg; if(sd<=e.shield){ e.shield-=sd; return; } const rest=(sd-e.shield)/(isLaser?2:1); e.shield=0; dmg=rest; }
-    const dealt=pierce?dmg:Math.max(1,dmg-e.armor);
+    if(e.shield>0){ const sd=(isLaser?dmg*2:dmg)*(1+((src&&src.shieldBonus)||0)); if(sd<=e.shield){ e.shield-=sd; return; } const rest=(sd-e.shield)/(isLaser?2:1); e.shield=0; dmg=rest; }
+    const dealt=pierce?dmg:Math.max(1,dmg-Math.max(0,e.armor-((src&&src.armorCut)||0)));
     e.hp-=dealt;
     if(!silent&&!pierce&&e.armor>0&&dealt<dmg*0.5){ e.dmgTick=(e.dmgTick||0)+1; if(e.dmgTick%4===1) G.effects.push({kind:'num',x:e.x+(Math.random()*10-5),y:e.y-e.radius,t:0.7,text:String(Math.round(dealt))}); }
   }
@@ -547,29 +703,55 @@
       if(target){
         t.angle=Math.atan2(target.y-t.y,target.x-t.x);
         if(t.cooldown<=0){
-          G.projectiles.push({x:t.x,y:t.y,target,dmg:t.dmg,speed:t.typeKey==='scherpschutter'?900:(t.typeKey==='mortier'?260:520),color:t.proj,splash:t.splash||0,slow:t.slow||0,slowDur:t.slowDur||0,pierce:t.pierce,kind:t.typeKey,burn:t.burn||0,burnDur:t.burnDur||0});
+          G.projectiles.push({x:t.x,y:t.y,target,dmg:t.dmg,speed:t.typeKey==='scherpschutter'?900:(t.typeKey==='mortier'?260:520),color:t.proj,splash:t.splash||0,slow:t.slow||0,slowDur:t.slowDur||0,pierce:t.pierce,kind:t.typeKey,burn:t.burn||0,burnDur:t.burnDur||0,src:t});
           t.cooldown=t.rate; t.recoil=1; shot(t.typeKey);
         }
       }
       t.recoil=Math.max(0,(t.recoil||0)-dt*8);
     }
-    const chain=G.towers.filter(t=>t.mode==='chain'), comp=new Map();
-    for(const t of chain){ if(comp.has(t)) continue; const m=[t]; comp.set(t,m); for(let i=0;i<m.length;i++) for(const o of chain){ if(!comp.has(o)&&Math.hypot(o.x-m[i].x,o.y-m[i].y)<=m[i].linkRange){ comp.set(o,m); m.push(o); } } }
-    for(let i=0;i<chain.length;i++) for(let j=i+1;j<chain.length;j++){ const a=chain[i],b=chain[j]; if(Math.hypot(a.x-b.x,a.y-b.y)<=a.linkRange) G.beams.push({x1:a.x,y1:a.y,x2:b.x,y2:b.y,color:'rgba(255,106,61,0.45)',width:1.2,link:true}); }
+    // Chainlaser-netwerk: schakels vuren hun straal in de volgende laser richting een aanvaller.
+    // Aanvallers vuren op vijanden; hun kracht stijgt met het aantal schakels dat op hen uitkomt.
+    const chain=G.towers.filter(t=>t.mode==='chain');
     if(chain.length>=2) showTip('relay');
-    for(const t of chain){
-      t.currentTarget=t.relay?null:selectTargets(t,1,dt)[0]||null;
-      if(!t.currentTarget) continue;
-      t.angle=Math.atan2(t.currentTarget.y-t.y,t.currentTarget.x-t.x);
-      const members=comp.get(t).filter(o=>o!==t).slice(0,t.maxLinks), links=members.length;
-      const bonus=members.reduce((s,o)=>s+(o.relay?t.linkBonus*2:t.linkBonus),0);
-      applyDamage(t.currentTarget,t.dmg*(1+bonus)*dt,true,true,true);
-      G.beams.push({x1:t.x,y1:t.y,x2:t.currentTarget.x,y2:t.currentTarget.y,color:t.beam,width:2+Math.min(links,6)*0.9});
+    if(chain.length){
+      const adj=new Map(chain.map(t=>[t,[]]));
+      for(let i=0;i<chain.length;i++) for(let j=i+1;j<chain.length;j++){ const a=chain[i],b=chain[j];
+        if(Math.hypot(a.x-b.x,a.y-b.y)<=Math.min(a.linkRange,b.linkRange)){ adj.get(a).push(b); adj.get(b).push(a); } }
+      // Aanvallers kiezen eerst een doelwit; alleen ketens die op een vurende aanvaller uitkomen lichten op
+      const attackers=chain.filter(t=>!t.relay);
+      for(const t of attackers){ t.currentTarget=selectTargets(t,1,dt)[0]||null; }
+      // BFS vanaf de aanvallers: elke schakel krijgt een volgende stap en de aanvaller aan het eind van zijn keten
+      const next=new Map(), root=new Map(), order=[]; const q=attackers.slice(), seen=new Set(q);
+      for(const t of attackers) root.set(t,t);
+      for(let i=0;i<q.length;i++){ const cur=q[i];
+        for(const nb of adj.get(cur)) if(nb.relay&&!seen.has(nb)){ seen.add(nb); next.set(nb,cur); root.set(nb,root.get(cur)); order.push(nb); q.push(nb); } }
+      // kracht stroomt van buiten naar binnen, maar alleen als de aanvaller aan het eind daadwerkelijk vuurt
+      const carry=new Map(chain.map(t=>[t,0]));
+      for(let i=order.length-1;i>=0;i--){ const r=order[i]; if(!root.get(r).currentTarget) continue; const dst=next.get(r); carry.set(dst,carry.get(dst)+carry.get(r)+1); }
+      for(const t of chain){
+        const active=t.relay?!!(root.has(t)&&root.get(t).currentTarget):!!t.currentTarget;
+        t.charge=active?Math.min(carry.get(t)||0,t.maxLinks):0;
+        t.active=active;
+        t.chargeColor=active?chainColor(t.relay?t.charge+1:t.charge):null;
+      }
+      for(const r of order){
+        r.currentTarget=null;
+        const dst=next.get(r); r.angle=Math.atan2(dst.y-r.y,dst.x-r.x);
+        if(!r.active) continue;
+        const n=Math.min(carry.get(r)+1,r.maxLinks);
+        G.beams.push({x1:r.x,y1:r.y,x2:dst.x,y2:dst.y,color:chainColor(n),color2:dst.chargeColor,width:2+Math.min(n,8)*0.7});
+      }
+      for(const t of attackers){
+        if(!t.currentTarget) continue;
+        t.angle=Math.atan2(t.currentTarget.y-t.y,t.currentTarget.x-t.x);
+        applyDamage(t.currentTarget,t.dmg*(1+t.linkBonus*2*t.charge)*dt,true,true,true,t);
+        G.beams.push({x1:t.x,y1:t.y,x2:t.currentTarget.x,y2:t.currentTarget.y,color:t.chargeColor,width:2+Math.min(t.charge,8)*0.8});
+      }
     }
     for(const t of G.towers){ if(t.mode!=='multi') continue;
       const targets=selectTargets(t,t.maxTargets,dt);
       if(targets.length) t.angle=Math.atan2(targets[0].y-t.y,targets[0].x-t.x);
-      for(const e of targets){ applyDamage(e,t.dmg*dt,true,true,true); G.beams.push({x1:t.x,y1:t.y,x2:e.x,y2:e.y,color:t.beam,width:1.8}); }
+      for(const e of targets){ applyDamage(e,t.dmg*dt,true,true,true,t); G.beams.push({x1:t.x,y1:t.y,x2:e.x,y2:e.y,color:t.beam,width:1.8}); }
     }
     if(audio){ let c=0,m=0; for(const b of G.beams){ if(b.link) continue; if(b.color==='#ff6a3d') c++; else m++; } updateHum(c,m); }
   }
@@ -579,7 +761,7 @@
       if(!G.enemies.includes(p.target)){ G.projectiles.splice(i,1); continue; }
       const dx=p.target.x-p.x,dy=p.target.y-p.y,dist=Math.hypot(dx,dy),step=p.speed*dt; p.angle=Math.atan2(dy,dx);
       if(dist<=step){
-        applyDamage(p.target,p.dmg,p.pierce,false,false);
+        applyDamage(p.target,p.dmg,p.pierce,false,false,p.src);
         G.effects.push({kind:'spark',x:p.target.x,y:p.target.y,t:0.18,color:p.kind==='mortier'?'#c58b4a':p.color,a:p.angle});
         if(p.burn>0){ p.target.burnTimer=p.burnDur; p.target.burnDps=p.burn; }
         if(p.splash>0){
@@ -599,19 +781,21 @@
     if(G.over) return;
     G.over=true; G.won=won; const lvl=G.level, title=$('ovTitle');
     (won?SFX.win:SFX.lose)(); buzz(won?[40,60,40,60,120]:[200]);
-    if(lvl.endless){
-      const reached=G.bonusWave; let rec=false;
-      if(!sandbox&&reached>(progress.endlessBest||0)){ progress.endlessBest=reached; rec=true; saveProgress(); }
+    if(G.endless){
+      const reached=G.bonusWave; let rec=false, best=progress.endlessBest[lvl.id]||0;
+      if(!sandbox&&reached>best){ progress.endlessBest[lvl.id]=reached; rec=true; best=reached; saveProgress(); }
       title.textContent='Perimeter doorbroken'; title.className='lose'; $('ovStars').innerHTML='';
-      $('ovText').textContent=`${reached} golven volledig doorstaan.${rec?' Nieuw record!':' Record: '+(progress.endlessBest||0)+'.'}${sandbox?' (Sandbox: niet opgeslagen.)':''}`;
+      $('ovText').textContent=`${reached} golven volledig doorstaan op ${lvl.name}.${rec?' Nieuw record!':' Record: '+best+'.'}${sandbox?' (Sandbox: niet opgeslagen.)':''}`;
       $('ovNext').style.display='none';
     } else {
       let stars=0; if(won){ const f=G.lives/G.maxLives; stars=f>=0.9?3:(f>=0.5?2:1); }
-      if(won&&!sandbox){ progress.stars[lvl.id]=Math.max(progress.stars[lvl.id]||0,stars); progress.unlocked=Math.max(progress.unlocked,Math.min(LAST,lvl.id+1)); saveProgress(); }
+      const before=progress.stars[lvl.id]||0;
+      if(won&&!sandbox){ progress.stars[lvl.id]=Math.max(before,stars); progress.unlocked=Math.max(progress.unlocked,Math.min(LAST,lvl.id+1)); saveProgress(); }
+      const gained=won&&!sandbox?Math.max(0,(STAR_POINTS[Math.max(before,stars)]||0)-(STAR_POINTS[before]||0)):0;
       title.textContent=won?'Perimeter gehouden':'Perimeter doorbroken'; title.className=won?'win':'lose';
       $('ovStars').innerHTML=won?[1,2,3].map(i=>`<span class="${i<=stars?'':'off'}">★</span>`).join(''):'';
-      $('ovText').textContent=won?`Sector ${lvl.id} veilig met ${G.lives}/${G.maxLives} integriteit.${lvl.id===LAST?' Eindeloos is ontgrendeld.':''}${sandbox?' (Sandbox: voortgang niet opgeslagen.)':''}`:`De integriteit is op nul gevallen in golf ${G.wave}. Herzie je opstelling en probeer opnieuw.`;
-      const nx=$('ovNext'); nx.style.display=won?'':'none'; nx.textContent=lvl.id===LAST?'Start Eindeloos':'Volgende sector';
+      $('ovText').textContent=won?`Sector ${lvl.id} veilig met ${G.lives}/${G.maxLives} integriteit.${gained?' +'+gained+' vaardigheidspunten.':''} Eindeloos is nu op deze kaart beschikbaar.${sandbox?' (Sandbox: voortgang niet opgeslagen.)':''}`:`De integriteit is op nul gevallen in golf ${G.wave}. Herzie je opstelling en probeer opnieuw.`;
+      const nx=$('ovNext'); nx.style.display=(won&&lvl.id<LAST)?'':'none'; nx.textContent='Volgende sector';
     }
     $('overlay').classList.add('show'); lastHud=''; updateHUD(); updateHum(0,0);
     if(isMobile()) canvas.parentElement.parentElement.scrollIntoView({behavior:'smooth',block:'start'});
@@ -696,7 +880,10 @@
     }
     for(const b of G.beams){ ctx.save(); ctx.lineCap='round';
       if(b.link){ ctx.setLineDash([3,6]); ctx.strokeStyle=b.color; ctx.lineWidth=b.width; ctx.beginPath(); ctx.moveTo(b.x1,b.y1); ctx.lineTo(b.x2,b.y2); ctx.stroke(); }
-      else { ctx.globalCompositeOperation='lighter'; ctx.strokeStyle=b.color; ctx.globalAlpha=0.18; ctx.lineWidth=b.width*(lowFx?2.5:4); ctx.beginPath(); ctx.moveTo(b.x1,b.y1); ctx.lineTo(b.x2,b.y2); ctx.stroke();
+      else { ctx.globalCompositeOperation='lighter';
+        let stroke=b.color;
+        if(b.color2){ const g=ctx.createLinearGradient(b.x1,b.y1,b.x2,b.y2); g.addColorStop(0,b.color); g.addColorStop(1,b.color2); stroke=g; }
+        ctx.strokeStyle=stroke; ctx.globalAlpha=0.18; ctx.lineWidth=b.width*(lowFx?2.5:4); ctx.beginPath(); ctx.moveTo(b.x1,b.y1); ctx.lineTo(b.x2,b.y2); ctx.stroke();
         ctx.globalAlpha=0.9; ctx.lineWidth=b.width; ctx.stroke(); ctx.strokeStyle='#ffffff'; ctx.globalAlpha=0.7; ctx.lineWidth=Math.max(1,b.width*0.35); ctx.stroke(); }
       ctx.restore(); }
     for(const e of G.enemies) if(e.healRate){ const k=(e.pulse%1.2)/1.2; ctx.strokeStyle='rgba(125,178,122,'+(0.5*(1-k))+')'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(e.x,e.y,e.healRadius*k,0,Math.PI*2); ctx.stroke(); }
@@ -726,7 +913,7 @@
     ctx.save(); ctx.translate(t.x,t.y);
     ctx.fillStyle='rgba(0,0,0,0.35)'; ctx.beginPath(); ctx.arc(3,4,17,0,Math.PI*2); ctx.fill();
     let g=ctx.createRadialGradient(-5,-6,2,0,0,17); g.addColorStop(0,'#4a545e'); g.addColorStop(1,'#232a30'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,16,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle=t.branch?t.accent:'#5b6773'; ctx.lineWidth=2; ctx.stroke();
+    ctx.strokeStyle=t.chargeColor&&t.charge?t.chargeColor:(t.branch?t.accent:'#5b6773'); ctx.lineWidth=2; ctx.stroke();
     ctx.fillStyle='#5b6773'; for(let i=0;i<6;i++){ const a=i/6*Math.PI*2; ctx.beginPath(); ctx.arc(Math.cos(a)*13,Math.sin(a)*13,1.4,0,Math.PI*2); ctx.fill(); }
     g=ctx.createRadialGradient(-3,-3,1,0,0,11); g.addColorStop(0,'#4d5862'); g.addColorStop(1,'#2e363d'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,11,0,Math.PI*2); ctx.fill();
     ctx.rotate(t.angle||0); const a=t.accent,rc=(t.recoil||0)*3; ctx.fillStyle=a;
@@ -738,10 +925,12 @@
         if(t.recoil>0.7){ ctx.shadowBlur=0; ctx.fillStyle='rgba(255,235,180,0.95)'; ctx.beginPath(); ctx.moveTo(27,0); ctx.lineTo(36,-4); ctx.lineTo(33,0); ctx.lineTo(36,4); ctx.closePath(); ctx.fill(); } break;
       case 'mortier': ctx.fillStyle='#6f7d8a'; ctx.fillRect(-8,-8,10,16); ctx.fillStyle=a; ctx.fillRect(-2-rc,-6,15,12); ctx.fillStyle='#8a6438'; ctx.fillRect(9-rc,-6,4,12); ctx.fillStyle='#1e2226'; ctx.beginPath(); ctx.arc(12-rc,0,4,0,Math.PI*2); ctx.fill();
         if(t.recoil>0.6){ ctx.shadowBlur=0; ctx.fillStyle='rgba(255,200,120,0.8)'; ctx.beginPath(); ctx.arc(14,0,5,0,Math.PI*2); ctx.fill(); } break;
-      case 'laserChain': ctx.shadowBlur=0; ctx.strokeStyle=a; ctx.lineWidth=1.5; ctx.globalAlpha=t.relay?0.5:1; ctx.beginPath(); ctx.arc(0,0,13,0,Math.PI*2); ctx.stroke(); ctx.globalAlpha=1;
+      case 'laserChain': { ctx.shadowBlur=0; const cc=t.chargeColor||a;
+        ctx.strokeStyle=cc; ctx.lineWidth=1.5+Math.min(t.charge||0,6)*0.25; ctx.beginPath(); ctx.arc(0,0,13,0,Math.PI*2); ctx.stroke();
         ctx.fillStyle='#6f7d8a'; ctx.fillRect(-5,-5,14,10); ctx.fillStyle='#3a434b'; ctx.fillRect(-3,-3,8,6);
-        if(t.relay){ ctx.strokeStyle=a; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(10,0,4,0,Math.PI*2); ctx.stroke(); }
-        else { ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.shadowColor=a; ctx.shadowBlur=10; ctx.fillStyle=a; ctx.beginPath(); ctx.arc(10,0,4,0,Math.PI*2); ctx.fill(); ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(10,0,1.6,0,Math.PI*2); ctx.fill(); ctx.restore(); } break;
+        ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.shadowColor=cc; ctx.shadowBlur=6+Math.min(t.charge||0,8)*2; ctx.fillStyle=cc;
+        ctx.beginPath(); ctx.arc(10,0,3.4+Math.min(t.charge||0,8)*0.22,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(10,0,1.4,0,Math.PI*2); ctx.fill(); ctx.restore(); } break;
       case 'laserMulti': ctx.fillStyle='#6f7d8a'; ctx.fillRect(-5,-6,12,12); ctx.fillStyle='#3a434b'; ctx.fillRect(-3,-4,8,8); for(const d of [-0.4,0,0.4]){ ctx.save(); ctx.rotate(d); ctx.fillStyle=a; ctx.fillRect(4,-1,13,2); ctx.restore(); }
         ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.shadowColor=a; ctx.shadowBlur=8; ctx.fillStyle=a; ctx.beginPath(); ctx.arc(5,0,2.5,0,Math.PI*2); ctx.fill(); ctx.restore(); break;
       case 'stoorzender': ctx.rotate(-(t.angle||0)); ctx.fillStyle='#6f7d8a'; ctx.fillRect(-2,-12,4,24); ctx.fillStyle=a; ctx.beginPath(); ctx.arc(0,0,3.5,0,Math.PI*2); ctx.fill();
@@ -804,6 +993,7 @@
   TOWER_KEYS.forEach((key,i)=>{
     const t=TOWER_TYPES[key], el=document.createElement('div'); el.className='tower-btn'; el.dataset.key=key;
     const stats=t.isAura?`vertraging ${Math.round(t.auraSlow*100)}% · bereik ${t.range}`:t.isLaser?`${t.dmg}/s · bereik ${t.range}`:`${t.dmg} × ${(1/t.rate).toFixed(1)}/s = ${Math.round(t.dmg/t.rate)} dps · bereik ${t.range}`;
+    el.title=t.desc;
     el.innerHTML=`${iconSVG(key,t.accent)}<div class="info"><div class="name"><span><span class="key">${i+1}</span>${t.name}</span><b>${t.cost}</b></div><div class="stats">${stats}</div><div class="desc">${t.desc}</div><span class="tag">${t.air?'Grond + lucht':'Alleen grond'}</span>${t.pierce?'<span class="tag">Pantserdoorborend</span>':''}${t.splash?'<span class="tag">Splash</span>':''}</div>`;
     el.addEventListener('click',()=>selectBuild(key));
     towerButtonsEl.appendChild(el);
@@ -818,7 +1008,14 @@
     ph.style.display='none'; sc.style.display='block';
     const base=TOWER_TYPES[t.typeKey],maxed=t.level>=3,upCost=Math.round(base.cost*0.7*t.level),sellVal=Math.round(t.invested*0.6),afford=sandbox||G.credits>=upCost,pr=priorityOf(t);
     let extra='';
-    if(t.mode==='chain') extra+=`<div class="row"><span>Linkbereik</span><span>${Math.round(t.linkRange)}</span></div><div class="row"><span>Modus</span><span style="color:${t.relay?'#8b95a0':t.accent}">${t.relay?'Alleen linken':'Aanvallen'}</span></div><button class="small" id="btnRelay" style="width:100%;margin-top:2px">${t.relay?'Schakel naar aanvallen':'Schakel naar alleen linken'}</button>`;
+    if(t.mode==='chain'){
+      const cc=t.chargeColor||t.accent;
+      extra+=`<div class="row"><span>Linkbereik</span><span>${Math.round(t.linkRange)}</span></div>
+        <div class="row"><span>Modus</span><span style="color:${cc}">${t.relay?'Schakel':'Aanvaller'}</span></div>
+        <div class="row"><span>${t.relay?'Doorgegeven schakels':'Gevoed door'}</span><span style="color:${cc}">${t.relay?(t.charge||0)+1:(t.charge||0)}</span></div>
+        ${t.relay?'':`<div class="row"><span>Effectieve schade / s</span><span style="color:${cc}">${Math.round(t.dmg*(1+t.linkBonus*2*(t.charge||0))*10)/10}</span></div>`}
+        <button class="small" id="btnRelay" style="width:100%;margin-top:2px">${t.relay?'Maak aanvaller':'Maak schakel'}</button>`;
+    }
     if(t.mode==='multi') extra+=`<div class="row"><span>Doelen</span><span>${t.maxTargets}</span></div>`;
     if(t.splash) extra+=`<div class="row"><span>Splash</span><span>${t.splash}</span></div>`;
     if(t.isAura) extra+=`<div class="row"><span>Vertraging</span><span>${Math.round(t.auraSlow*100)}%</span></div>${t.auraDps?`<div class="row"><span>Veldschade</span><span>${t.auraDps}/s</span></div>`:''}`;
@@ -840,43 +1037,90 @@
   }
   function renderPreview(){
     const el=$('preview'),title=$('prevTitle'); if(!G) return; const n=G.wave+1;
-    if(n>G.level.waves){ title.textContent='Laatste golf actief'; el.innerHTML='<span class="placeholder">Geen golven meer. Houd stand.</span>'; return; }
-    title.textContent=G.level.endless?`Golf ${n}`:`Golf ${n} van ${G.level.waves}`;
-    const c=waveComposition(G.level,n);
+    if(n>G.waves){ title.textContent='Laatste golf actief'; el.innerHTML='<span class="placeholder">Geen golven meer. Houd stand.</span>'; return; }
+    title.textContent=G.endless?`Golf ${n}`:`Golf ${n} van ${G.waves}`;
+    const c=waveComposition(G.level,n,G.endless);
     el.innerHTML=Object.entries(c).filter(([,v])=>v>0).map(([k,v])=>`<span class="chip">${ENEMY_TYPES[k].name} <b>×${v}</b></span>`).join('')+(G.paths.length>1?'<div class="placeholder" style="margin-top:4px">Verdeeld over '+G.paths.length+' routes.</div>':'');
   }
   let lastHud='', lastCredits=null;
   function updateHUD(){
     if(!G) return;
     const cd=G.countdown!==null?Math.ceil(G.countdown):null, spawning=G.spawnQueue.length>0;
-    let btn; if(G.over) btn='—'; else if(G.wave===0) btn='Start golf 1'; else if(G.wave>=G.level.waves) btn='Laatste golf'; else if(spawning) btn=`Golf ${G.wave} spawnt…`; else btn=`Golf ${G.wave+1} nu · +${cd}`;
+    let btn; if(G.over) btn='—'; else if(G.wave===0) btn='Start golf 1'; else if(G.wave>=G.waves) btn='Laatste golf'; else if(spawning) btn=`Golf ${G.wave} spawnt…`; else btn=`Golf ${G.wave+1} nu · +${cd}`;
     $('waveTimer').style.width=(G.countdown!==null&&!G.over?(G.countdown/WAVE_INTERVAL*100):0)+'%';
     if(G.credits!==lastCredits){ lastCredits=G.credits; if(G.selectedTower) renderSelPanel(); }
     const key=[G.credits,G.lives,G.wave,btn,sandbox].join('|'); if(key===lastHud) return; lastHud=key;
     $('hCredits').textContent=sandbox?'∞':G.credits;
     $('hLives').textContent=G.lives+' / '+G.maxLives;
     const bar=$('hLivesBar'); bar.style.width=(G.lives/G.maxLives*100)+'%'; bar.classList.toggle('low',G.lives/G.maxLives<0.35);
-    $('hWave').textContent=G.level.endless?String(G.wave):G.wave+' / '+G.level.waves;
-    const wb=$('btnWave'); wb.textContent=btn; wb.disabled=G.over||G.wave>=G.level.waves||spawning;
-    $('btnSandbox').classList.toggle('active',sandbox); $('btnSandboxLv').classList.toggle('active',sandbox);
+    $('hWave').textContent=G.endless?String(G.wave):G.wave+' / '+G.waves;
+    const wb=$('btnWave'); wb.textContent=btn; wb.disabled=G.over||G.wave>=G.waves||spawning;
     refreshTowerButtons();
   }
   function renderLevels(){
     const grid=$('levelGrid'); grid.innerHTML='';
+    $('screenLevels').querySelector('.intro').textContent=endlessPick
+      ? 'Kies een kaart voor de eindeloze modus. Beschikbaar zodra je de sector gewonnen hebt.'
+      : 'Twintig sectoren, elk met een eigen aanvalsroute en dreiging. Win een sector voor vaardigheidspunten, de volgende sector en de eindeloze modus op die kaart.';
     for(const lvl of LEVELS){
-      const locked=lvl.endless?!endlessUnlocked():(!sandbox&&lvl.id>progress.unlocked),stars=progress.stars[lvl.id]||0;
-      const el=document.createElement('div'); el.className='card'+(locked?' locked':'')+(lvl.endless?' endless':'');
-      const right=lvl.endless?`<span>Record: golf ${progress.endlessBest||0}</span>`:`<span class="stars">${[1,2,3].map(i=>`<span class="${i<=stars?'':'off'}">★</span>`).join('')}</span>`;
+      const locked=!sandbox&&lvl.id>progress.unlocked, stars=progress.stars[lvl.id]||0, inf=endlessUnlocked(lvl.id), best=(progress.endlessBest||{})[lvl.id]||0;
       const diff=`<span class="diff" title="Moeilijkheid ${lvl.diff}/5">${[1,2,3,4,5].map(i=>`<i class="${i<=lvl.diff?'on':''}"></i>`).join('')}</span>`;
-      el.innerHTML=`<div class="num"><span>${lvl.endless?'Eindeloze modus':'Sector '+lvl.id}${locked?' · vergrendeld':''}</span>${diff}</div><h3>${lvl.name}</h3><p>${lvl.desc}</p><div class="meta"><span>${lvl.endless?'∞ golven':lvl.waves+' golven'} · ${lvl.paths.length} route${lvl.paths.length>1?'s':''}</span>${right}</div>`;
-      if(!locked) el.addEventListener('click',()=>startLevel(lvl));
+      const right=endlessPick?`<span>${best?'Record: golf '+best:'Geen record'}</span>`:`<span class="stars">${[1,2,3].map(i=>`<span class="${i<=stars?'':'off'}">★</span>`).join('')}</span>`;
+      const infBtn=(!endlessPick&&inf&&!locked)?`<button class="lvl-endless" data-inf="1" title="Eindeloze modus op deze kaart">∞${best?' '+best:''}</button>`:'';
+      const playable=endlessPick?inf:!locked;
+      const el=document.createElement('div'); el.className='card'+(playable?'':' locked')+(endlessPick?' endless':'');
+      el.innerHTML=`<div class="num"><span>Sector ${lvl.id}${playable?'':' · vergrendeld'}</span>${diff}</div><h3>${lvl.name}</h3><p>${lvl.desc}</p>
+        <div class="meta"><span>${endlessPick?'∞ golven':lvl.waves+' golven'} · ${lvl.paths.length} route${lvl.paths.length>1?'s':''}</span><span style="display:flex;gap:8px;align-items:center">${infBtn}${right}</span></div>`;
+      if(playable) el.addEventListener('click',e=>{ if(e.target.closest('.lvl-endless')) return; startLevel(lvl,endlessPick); });
+      const ib=el.querySelector('.lvl-endless'); if(ib) ib.addEventListener('click',e=>{ e.stopPropagation(); startLevel(lvl,true); });
       grid.appendChild(el);
     }
   }
   function showScreen(name){
-    $('screenLevels').style.display=name==='levels'?'':'none'; $('screenGame').style.display=name==='game'?'':'none';
-    $('hud').style.display=name==='game'?'':'none'; $('levelControls').style.display=name==='levels'?'':'none';
-    if(name==='levels'){ $('hdrLevel').textContent='Selecteer een sector'; renderLevels(); }
+    $('screenMenu').style.display=name==='menu'?'':'none';
+    $('screenSkills').style.display=name==='skills'?'':'none';
+    $('screenLevels').style.display=name==='levels'?'':'none';
+    $('screenGame').style.display=name==='game'?'':'none';
+    $('hud').style.display=name==='game'?'':'none';
+    $('levelControls').style.display=(name==='levels'||name==='skills')?'':'none';
+    if(name==='menu'){ $('hdrLevel').textContent=''; renderMenu(); }
+    if(name==='levels'){ $('hdrLevel').textContent=endlessPick?'Eindeloze modus — kies een kaart':'Selecteer een sector'; renderLevels(); }
+    if(name==='skills'){ $('hdrLevel').textContent='Vaardigheden'; renderSkills(); }
+  }
+  function renderMenu(){
+    let st=0,best=0,bestName='';
+    for(const l of LEVELS){ st+=progress.stars[l.id]||0; const b=(progress.endlessBest||{})[l.id]||0; if(b>best){ best=b; bestName=l.name; } }
+    $('mnStars').textContent=st+' / '+(LAST*3);
+    $('mnPoints').textContent=sandbox?'∞':Math.max(0,pointsEarned()-pointsSpent());
+    $('mnBest').textContent=best?('golf '+best):'—'; $('mnBest').title=bestName;
+    $('mnEndless').disabled=!LEVELS.some(l=>endlessUnlocked(l.id));
+    $('mnSandbox').classList.toggle('active',sandbox);
+  }
+  let endlessPick=false;
+  function renderSkills(){
+    const left=pointsLeft();
+    $('skPoints').textContent=(sandbox?'∞':left)+' van '+pointsEarned()+' punten · hele boom kost '+SKILL_TOTAL;
+    const wrap=$('trees'); wrap.innerHTML='';
+    for(const [key,nodes] of Object.entries(SKILLS)){
+      const t=TOWER_TYPES[key], owned=nodes.filter(n=>hasSkill(key,n.id)).length;
+      const el=document.createElement('div'); el.className='tree';
+      let html=`<h3>${iconSVG(key,t.accent)}<span>${t.name}</span></h3><div class="prog">${owned} / ${nodes.length} vaardigheden · ${nodes.reduce((a,n)=>a+n.cost,0)} punten</div>`;
+      for(const tier of [0,1,2]){
+        html+='<div class="tier">';
+        for(const n of nodes.filter(x=>x.tier===tier)){
+          const have=hasSkill(key,n.id), reqOk=!n.req||hasSkill(key,n.req), can=!have&&reqOk&&left>=n.cost;
+          html+=`<div class="node ${have?'owned':(can?'':'locked')}" data-k="${key}" data-i="${n.id}">
+            <div class="nn"><span>${n.name}</span><b>${have?'✓':n.cost}</b></div><div class="nd">${n.desc}</div></div>`;
+        }
+        html+='</div>';
+      }
+      el.innerHTML=html; wrap.appendChild(el);
+    }
+    wrap.querySelectorAll('.node').forEach(el=>el.addEventListener('click',()=>{
+      const k=el.dataset.k, n=SKILLS[k].find(x=>x.id===el.dataset.i);
+      if(hasSkill(k,n.id)||(n.req&&!hasSkill(k,n.req))||pointsLeft()<n.cost) return;
+      progress.skills[k]=(progress.skills[k]||[]).concat(n.id); saveProgress(); SFX.upgrade(); renderSkills();
+    }));
   }
 
   // ---------------- Input ----------------
@@ -888,7 +1132,8 @@
     if(distToPaths(cx,cy)<33) return warn('Te dicht bij de route',gc,gr);
     if(!sandbox&&G.credits<base.cost) return warn('Onvoldoende credits ('+base.cost+')',gc,gr);
     if(!sandbox) G.credits-=base.cost;
-    G.towers.push(Object.assign({},base,{typeKey:G.selectedBuild,gc,gr,x:cx,y:cy,level:1,cooldown:0,invested:base.cost,angle:-Math.PI/2,recoil:0,priority:base.priority,relay:false,branch:null,cache:null,retarget:0}));
+    const nt=Object.assign({},base,{typeKey:G.selectedBuild,gc,gr,x:cx,y:cy,level:1,cooldown:0,invested:base.cost,angle:-Math.PI/2,recoil:0,priority:base.priority,relay:false,branch:null,cache:null,retarget:0,charge:0,chargeColor:null});
+    applySkills(nt); G.towers.push(nt);
     G.occupied.add(gc+','+gr); G.touchCell=null; G.effects=G.effects.filter(f=>f.kind!=='hint'); SFX.place(); buzz(35); lastHud=''; updateHUD();
   }
   function handleTap(gc,gr){
@@ -929,8 +1174,8 @@
   }
   $('btnWave').addEventListener('click',()=>callNextWave(true));
   $('btnPause').addEventListener('click',togglePause);
-  $('btnReset').addEventListener('click',e=>withConfirm(e.currentTarget,()=>startLevel(G.level)));
-  $('btnQuit').addEventListener('click',e=>withConfirm(e.currentTarget,()=>{ G=null; updateHum(0,0); showScreen('levels'); }));
+  $('btnReset').addEventListener('click',e=>withConfirm(e.currentTarget,()=>startLevel(G.level,G.endless)));
+  $('btnQuit').addEventListener('click',e=>withConfirm(e.currentTarget,()=>{ G=null; updateHum(0,0); endlessPick=false; showScreen('levels'); }));
   function openHelp(){ if(!G) return; $('helpOverlay').classList.add('show'); G.helpPausedBefore=G.paused; G.paused=true; $('btnHelp').classList.add('active'); $('ctlMenu').classList.remove('open'); $('btnMore').classList.remove('active'); }
   function closeHelp(){ $('helpOverlay').classList.remove('show'); $('btnHelp').classList.remove('active'); if(G) G.paused=!!G.helpPausedBefore; }
   $('btnHelp').addEventListener('click',()=>{ $('helpOverlay').classList.contains('show')?closeHelp():openHelp(); });
@@ -940,7 +1185,7 @@
   function setSpeed(s){ gameSpeed=s; ['btnSpeed1','btnSpeed2','btnSpeed3'].forEach((id,i)=>$(id).classList.toggle('active',s===i+1)); $('btnSpeedCycle').textContent=s+'×'; $('btnSpeedCycle').classList.toggle('active',s>1); }
   $('btnSpeedCycle').addEventListener('click',()=>setSpeed(gameSpeed%3+1));
   $('btnMore').addEventListener('click',()=>{ $('ctlMenu').classList.toggle('open'); $('btnMore').classList.toggle('active'); });
-  ['btnReset','btnQuit','btnSandbox'].forEach(id=>$(id).addEventListener('click',()=>{ if(isMobile()&&!(G&&G.confirmBtn)){ $('ctlMenu').classList.remove('open'); $('btnMore').classList.remove('active'); } }));
+  ['btnReset','btnQuit'].forEach(id=>$(id).addEventListener('click',()=>{ if(isMobile()&&!(G&&G.confirmBtn)){ $('ctlMenu').classList.remove('open'); $('btnMore').classList.remove('active'); } }));
   $('sheetClose').addEventListener('click',()=>cancel());
   $('zoomIn').addEventListener('click',()=>setZoom(zoom+0.5)); $('zoomOut').addEventListener('click',()=>setZoom(zoom-0.5));
   if(canVibrate){ $('btnVib').style.display=''; $('btnVib').classList.add('active'); $('btnVib').addEventListener('click',()=>{ vibrate=!vibrate; $('btnVib').classList.toggle('active',vibrate); $('btnVib').classList.toggle('muted',!vibrate); if(vibrate) buzz([60,40,60]); }); }
@@ -954,15 +1199,21 @@
     if(pinch&&e.touches.length===2){ e.preventDefault(); const [a,b]=e.touches; const d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY); setZoom(pinch.z*d/pinch.d,pinch.cx,pinch.cy); }
     else if(tapStart&&e.touches.length===1){ const t=e.touches[0]; if(Math.hypot(t.clientX-tapStart.x,t.clientY-tapStart.y)>10) tapStart.moved=true; }
   },{passive:false});
-  function toggleSandbox(){ sandbox=!sandbox; lastHud=''; lastCredits=null; updateHUD(); renderSelPanel(); refreshTowerButtons(); renderLevels(); $('btnSandboxLv').classList.toggle('active',sandbox); }
-  $('btnSandbox').addEventListener('click',toggleSandbox); $('btnSandboxLv').addEventListener('click',toggleSandbox);
+  function toggleSandbox(){ sandbox=!sandbox; lastHud=''; lastCredits=null; updateHUD(); renderSelPanel(); refreshTowerButtons(); renderLevels(); if($('screenSkills').style.display!=='none') renderSkills(); }
   $('btnMute').addEventListener('click',()=>setMute(!muted)); $('btnMuteLv').addEventListener('click',()=>setMute(!muted)); $('btnWpn').addEventListener('click',()=>setWeaponSfx(!weaponSfx));
-  $('ovRetry').addEventListener('click',()=>startLevel(G.level));
-  $('ovLevels').addEventListener('click',()=>{ G=null; updateHum(0,0); showScreen('levels'); });
+  $('ovRetry').addEventListener('click',()=>startLevel(G.level,G.endless));
+  $('ovLevels').addEventListener('click',()=>{ G=null; updateHum(0,0); endlessPick=false; showScreen('levels'); });
   $('ovNext').addEventListener('click',()=>{ const nx=LEVELS.find(l=>l.id===G.level.id+1); if(nx) startLevel(nx); });
+  $('ovSkills').addEventListener('click',()=>{ G=null; updateHum(0,0); showScreen('skills'); });
 
+  $('mnPlay').addEventListener('click',()=>{ endlessPick=false; showScreen('levels'); });
+  $('mnSkills').addEventListener('click',()=>showScreen('skills'));
+  $('mnEndless').addEventListener('click',()=>{ endlessPick=true; showScreen('levels'); });
+  $('mnSandbox').addEventListener('click',()=>{ toggleSandbox(); renderMenu(); });
+  $('btnMenuBack').addEventListener('click',()=>{ endlessPick=false; showScreen('menu'); });
+  $('skReset').addEventListener('click',()=>{ progress.skills={}; saveProgress(); renderSkills(); });
   mq.addEventListener('change',()=>renderSelPanel());
-  setMute(false); setWeaponSfx(true); showScreen('levels'); loadProgress(); requestAnimationFrame(loop);
+  setMute(false); setWeaponSfx(true); showScreen('menu'); loadProgress(); requestAnimationFrame(loop);
 })();
 </script>
 </body>
